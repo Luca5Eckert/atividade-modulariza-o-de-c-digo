@@ -17,21 +17,13 @@ public record Emprestimo(long id, long idLivro, long idUsuario, LocalDate dataEm
             throw new IllegalArgumentException("A data de emprestimo não pode ser nula");
         }
 
-        if(dataDevolucao == null){
-            throw new IllegalArgumentException("A data de devolução não pode ser nula");
-        }
-
-        if(dataEmprestimo.isAfter(dataDevolucao)){
-            throw new IllegalArgumentException("A data de devolução precisa ser antes da data do emprestimo");
-        }
-
     }
 
-    public static Livro toInstance(long id, String titulo, String autor, int ano, boolean disponivel){
-        return new Livro(id, titulo, autor, ano, disponivel);
+    public static Emprestimo toInstance(long id, long idLivro, long idUsuario, LocalDate dataEmprestimo, LocalDate dataDevolucao){
+        return new Emprestimo(id, idLivro, idUsuario, dataEmprestimo, dataDevolucao);
     }
 
-    public static Livro toInstance(String titulo, String autor, int ano, boolean disponivel){
-        return new Livro(-1, titulo, autor, ano, disponivel);
+    public static Emprestimo toInstance(long idLivro, long idUsuario, LocalDate dataEmprestimo, LocalDate dataDevolucao){
+        return new Emprestimo(-1, idLivro, idUsuario, dataEmprestimo, dataDevolucao);
     }
 }

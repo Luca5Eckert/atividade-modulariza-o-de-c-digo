@@ -10,7 +10,12 @@ public class Main {
 
         while(BibliotecaView.continuar()){
             BibliotecaView.mostrarMenu();
-            BibliotecaView.capturarOpcao(scanner);
+
+            try{
+                BibliotecaView.capturarOpcao(scanner);
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
 
     }

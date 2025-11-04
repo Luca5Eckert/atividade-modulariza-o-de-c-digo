@@ -18,7 +18,7 @@ public class LivroService {
     }
 
     public List<Livro> buscarTodos(){
-        return livroRepository.buscarTodos();
+        return livroRepository.buscarTodosDisponivel();
     }
 
 }
