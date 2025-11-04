@@ -59,6 +59,15 @@ public class BibliotecaView {
     }
 
     private static void buscarEmprestimos(Scanner scanner) {
+        var livros = EMPRESTIMO_SERVICE.buscarTodos();
+
+        System.out.println("""
+                ===============================
+                         EMPRESTIMOS
+                ===============================
+                """);
+
+        exibirLista(livros);
     }
 
     public static boolean continuar(){
@@ -66,15 +75,14 @@ public class BibliotecaView {
     }
 
     private static void buscarLivros(Scanner scanner) {
-        var livros = LIVRO_SERVICE.buscarTodos(false);
+        var livros = LIVRO_SERVICE.buscarTodos(true);
 
         System.out.println("""
                 ===============================
-                         DEVOLVER
+                         LIVROS
                 ===============================
                 """);
 
-        System.out.println(" Livro: ");
         exibirLista(livros);
     }
 
