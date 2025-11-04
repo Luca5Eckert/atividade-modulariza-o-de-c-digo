@@ -17,8 +17,8 @@ public class LivroService {
         livroRepository.cadastrar(livro);
     }
 
-    public List<Livro> buscarTodos(){
-        return livroRepository.buscarTodosDisponivel();
+    public List<Livro> buscarTodos(boolean disponivel){
+        return livroRepository.buscarTodosDisponivel(disponivel);
     }
 
 }

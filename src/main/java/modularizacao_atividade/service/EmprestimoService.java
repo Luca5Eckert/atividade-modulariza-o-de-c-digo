@@ -21,10 +21,10 @@ public class EmprestimoService {
         livroRepository.mudarDisponibilidade(emprestimo.idLivro(), false);
     }
 
-    public void realizarDevolucaoLivro(Emprestimo emprestimo){
-        emprestimoRepository.realizarDevolucaoLivro(emprestimo.id());
+    public void realizarDevolucaoLivro(long idLivro){
+        emprestimoRepository.realizarDevolucaoLivro(idLivro);
 
-        livroRepository.mudarDisponibilidade(emprestimo.idLivro(), true);
+        livroRepository.mudarDisponibilidade(idLivro, true);
     }
 
 }

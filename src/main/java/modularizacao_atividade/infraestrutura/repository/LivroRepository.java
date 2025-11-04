@@ -46,7 +46,7 @@ public class LivroRepository {
     }
 
 
-    public List<Livro> buscarTodosDisponivel() {
+    public List<Livro> buscarTodosDisponivel(boolean disponivel) {
         List<Livro> livros = new ArrayList<>();
         String consulta = """
                 SELECT
@@ -62,7 +62,7 @@ public class LivroRepository {
                 """;
 
         try (Connection connection = Conexoes.toInstance();
-             PreparedStatement statement = criarConsultaComFiltro(consulta, true, connection);
+             PreparedStatement statement = criarConsultaComFiltro(consulta, disponivel, connection);
              ResultSet resultSet = statement.executeQuery()){
 
             while(resultSet.next()){
@@ -70,9 +70,9 @@ public class LivroRepository {
                 String titulo = resultSet.getString("titulo");
                 String autor = resultSet.getString("autor");
                 int anoPublicacao = resultSet.getInt("ano");
-                boolean disponivel = resultSet.getBoolean("disponivel");
+                boolean disponivelDb = resultSet.getBoolean("disponivel");
 
-                Livro livro = Livro.toInstance(id, titulo, autor, anoPublicacao, disponivel);
+                Livro livro = Livro.toInstance(id, titulo, autor, anoPublicacao, disponivelDb);
                 livros.add(livro);
             }
 

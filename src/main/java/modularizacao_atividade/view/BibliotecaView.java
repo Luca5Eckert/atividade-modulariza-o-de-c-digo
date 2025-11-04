@@ -36,6 +36,8 @@ public class BibliotecaView {
                 3- Devolução de livro
                 -
                 4- Buscar livros
+                -
+                5- Buscar emprestimos
                 ------------------------------
                 0- Sair
                 ==============================
@@ -52,7 +54,11 @@ public class BibliotecaView {
             case 2 -> cadastrarEmprestimo(scanner);
             case 3 -> devolucaoLivro(scanner);
             case 4 -> buscarLivros(scanner);
+            case 5 -> buscarEmprestimos(scanner);
         }
+    }
+
+    private static void buscarEmprestimos(Scanner scanner) {
     }
 
     public static boolean continuar(){
@@ -60,14 +66,42 @@ public class BibliotecaView {
     }
 
     private static void buscarLivros(Scanner scanner) {
+        var livros = LIVRO_SERVICE.buscarTodos(false);
+
+        System.out.println("""
+                ===============================
+                         DEVOLVER
+                ===============================
+                """);
+
+        System.out.println(" Livro: ");
+        exibirLista(livros);
     }
 
     private static void devolucaoLivro(Scanner scanner) {
+        var livros = LIVRO_SERVICE.buscarTodos(false);
+
+        System.out.println("""
+                ===============================
+                         DEVOLVER
+                ===============================
+                """);
+
+        System.out.println(" Livro: ");
+        exibirLista(livros);
+
+        int input = pegarInputLista(livros, scanner);
+        long idLivro = livros.get(input).id();
+
+        EMPRESTIMO_SERVICE.realizarDevolucaoLivro(idLivro);
+
+        System.out.println("|| DEVOLVIDO COM SUCESSO");
+
     }
 
     private static void cadastrarEmprestimo(Scanner scanner) {
         var usuarios = USUARIO_SERVICE.buscarTodos();
-        var livros = LIVRO_SERVICE.buscarTodos();
+        var livros = LIVRO_SERVICE.buscarTodos(true);
 
         System.out.println("""
                 ===============================
@@ -89,6 +123,9 @@ public class BibliotecaView {
 
         Emprestimo emprestimo = Emprestimo.toInstance(idLivro, idUser, LocalDate.now(), null);
         EMPRESTIMO_SERVICE.realizarEmprestimo(emprestimo);
+
+        System.out.println("|| EMPRESTADO COM SUCESSO");
+
 
     }
 

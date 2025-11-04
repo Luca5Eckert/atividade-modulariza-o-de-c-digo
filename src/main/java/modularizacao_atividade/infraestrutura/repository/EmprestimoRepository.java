@@ -42,21 +42,22 @@ public class EmprestimoRepository {
 
     }
 
-    public void realizarDevolucaoLivro(long idEmprestimo) {
+    public void realizarDevolucaoLivro(long idLivro) {
         String consulta = """
                 UPDATE
                     emprestimos
                 SET
                     data_devolucao = ?
                 WHERE
-                    id = ?
+                    livro_id = ? AND data_devolucao = ?
                 """;
 
         try (Connection connection = Conexoes.toInstance();
              PreparedStatement statement = connection.prepareStatement(consulta)){
 
             statement.setDate(1, Date.valueOf(LocalDate.now()));
-            statement.setLong(2, idEmprestimo);
+            statement.setLong(2, idLivro);
+            statement.setDate(3, null);
 
             statement.executeUpdate();
 
