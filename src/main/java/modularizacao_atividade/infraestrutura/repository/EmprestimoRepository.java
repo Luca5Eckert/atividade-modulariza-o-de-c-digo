@@ -2,12 +2,12 @@ package modularizacao_atividade.infraestrutura.repository;
 
 import modularizacao_atividade.infraestrutura.conexao.Conexoes;
 import modularizacao_atividade.model.Emprestimo;
+import modularizacao_atividade.model.Livro;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmprestimoRepository {
 
@@ -65,5 +65,40 @@ public class EmprestimoRepository {
             throw new RuntimeException("[ERRO] BANCO DE DADOS: " + sqlException.getMessage());
         }
 
+    }
+
+    public List<Emprestimo> buscarTodos() {
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        String consulta = """
+                SELECT
+                    id,
+                    livro_id,
+                    usuario_id,
+                    data_emprestimo,
+                    data_devolucao
+                FROM
+                    emprestimos
+                """;
+
+        try (Connection connection = Conexoes.toInstance();
+             PreparedStatement statement = connection.prepareStatement(consulta);
+             ResultSet resultSet = statement.executeQuery()){
+
+            while(resultSet.next()){
+                long id = resultSet.getLong("id");
+                long idLivro = resultSet.getLong("livro_id");
+                long idUsuario = resultSet.getLong("usuario_id");
+                LocalDate dataEmprestimo = resultSet.getDate("data_emprestimo").toLocalDate();
+                LocalDate dataDevolucao = resultSet.getDate("data_devolucao").toLocalDate();
+
+                Emprestimo emprestimo = Emprestimo.toInstance(id, idLivro, idUsuario, dataEmprestimo, dataDevolucao);
+                emprestimos.add(emprestimo);
+            }
+
+        } catch (SQLException sqlException){
+            throw new RuntimeException("[ERRO] BANCO DE DADOS: " + sqlException.getMessage());
+        }
+
+        return emprestimos;
     }
 }

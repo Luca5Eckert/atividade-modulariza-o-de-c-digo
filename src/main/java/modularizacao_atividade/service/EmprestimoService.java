@@ -4,6 +4,8 @@ import modularizacao_atividade.infraestrutura.repository.EmprestimoRepository;
 import modularizacao_atividade.infraestrutura.repository.LivroRepository;
 import modularizacao_atividade.model.Emprestimo;
 
+import java.util.List;
+
 public class EmprestimoService {
 
     private final EmprestimoRepository emprestimoRepository;
@@ -27,4 +29,7 @@ public class EmprestimoService {
         livroRepository.mudarDisponibilidade(idLivro, true);
     }
 
+    public List<Emprestimo> buscarTodos() {
+        return emprestimoRepository.buscarTodos();
+    }
 }
