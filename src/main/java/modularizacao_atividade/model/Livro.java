@@ -1,5 +1,8 @@
 package modularizacao_atividade.model;
 
+import com.mysql.cj.util.TimeUtil;
+import org.jetbrains.annotations.NotNull;
+
 public record Livro(long id, String titulo, String autor, int ano, boolean disponivel) {
 
     public Livro {
@@ -23,6 +26,11 @@ public record Livro(long id, String titulo, String autor, int ano, boolean dispo
 
     public static Livro toInstance(String titulo, String autor, int ano, boolean disponivel){
         return new Livro(-1, titulo, autor, ano, disponivel);
+    }
+
+    @Override
+    public @NotNull String toString() {
+        return "Titulo: " + titulo + "; Autor: " + autor + "; Disponivel: " + disponivel;
     }
 
 }
