@@ -49,7 +49,7 @@ public class EmprestimoRepository {
                 SET
                     data_devolucao = ?
                 WHERE
-                    livro_id = ? AND data_devolucao = ?
+                    livro_id = ? AND data_devolucao IS NULL
                 """;
 
         try (Connection connection = Conexoes.toInstance();
@@ -57,7 +57,6 @@ public class EmprestimoRepository {
 
             statement.setDate(1, Date.valueOf(LocalDate.now()));
             statement.setLong(2, idLivro);
-            statement.setDate(3, null);
 
             statement.executeUpdate();
 
@@ -89,9 +88,9 @@ public class EmprestimoRepository {
                 long idLivro = resultSet.getLong("livro_id");
                 long idUsuario = resultSet.getLong("usuario_id");
                 LocalDate dataEmprestimo = resultSet.getDate("data_emprestimo").toLocalDate();
-                LocalDate dataDevolucao = resultSet.getDate("data_devolucao").toLocalDate();
+                Date dataDevolucao = resultSet.getDate("data_devolucao");
 
-                Emprestimo emprestimo = Emprestimo.toInstance(id, idLivro, idUsuario, dataEmprestimo, dataDevolucao);
+                Emprestimo emprestimo = Emprestimo.toInstance(id, idLivro, idUsuario, dataEmprestimo, dataDevolucao != null ? dataDevolucao.toLocalDate() : null);
                 emprestimos.add(emprestimo);
             }
 
